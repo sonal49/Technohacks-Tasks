@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        
+        .timer {
+            font-size: 36px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        
+        .controls {
+            margin-top: 20px;
+        }
+        
+        button {
+            font-size: 18px;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+        }
+        
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>CountDown Timer</h1>
+    <div class="timer" id="timer">00:00.00</div>
+    <div class="controls">
+        <button id="startButton" onclick="startTimer()">Start</button>
+        <button id="stopButton" onclick="stopTimer()">Stop</button>
+        <button id="resetButton" onclick="resetTimer()">Reset</button>
+    </div>
+    <script>
+        let timerInterval;
+        let milliseconds = 0;
+        let seconds = 0;
+        let minutes = 0;
+
+        function updateTimer() {
+            milliseconds++;
+            if (milliseconds === 100) {
+                milliseconds = 0;
+                seconds++;
+                if (seconds === 60) {
+                    seconds = 0;
+                    minutes++;
+                }
+            }
+
+            const formattedTime = `${minutes < 10 ? "0" : ""}${minutes}:${seconds < 10 ? "0" : ""}${seconds}.${milliseconds < 10 ? "0" : ""}${milliseconds}`;
+            document.getElementById("timer").innerText = formattedTime;
+        }
+
+        function startTimer() {
+            if (!timerInterval) {
+                timerInterval = setInterval(updateTimer, 10); 
+            }
+        }
+
+        function stopTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+
+        function resetTimer() {
+            stopTimer();
+            milliseconds = 0;
+            seconds = 0;
+            minutes = 0;
+            updateTimer();
+        }
+    </script>
+</body>
+</html>
